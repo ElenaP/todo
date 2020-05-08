@@ -1,0 +1,12 @@
+<div class="todo-item d-flex align-items-center justify-content-between w-100" *ngIf="!isEditMode; else editMode" (dblclick)="switchToEditMode()">
+  <div class="form-check pt-2 pb-2">
+    <input type="checkbox" class="form-check-input" [checked]="item['completed']" [(ngModel)]="item['completed']" (change)="changeItem()">
+    <label [ngStyle]="{'text-decoration': item['completed'] ? 'line-through' : 'none'}" class="form-check-label">{{ item.title }}</label>
+  </div>
+  <button type="button" class="btn btn-link" (click)="deleteItem()"><i class="fas fa-times"></i></button>
+</div>
+<ng-template #editMode>
+  <form #form="ngForm" (ngSubmit)="onSubmit(form.value)">
+    <input type="text" name="title" [(ngModel)]="item.title">
+  </form>
+</ng-template>

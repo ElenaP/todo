@@ -1,21 +1,21 @@
 <div class="d-flex flex-column align-items-center m-auto w-75">
   <h1>{{ app }}</h1>
   <div class="d-flex justify-content-center">
-    <button [ngStyle]="{'visibility': items.length ? 'visible' : 'hidden'}" type="button" class="btn btn-link" (click)="markAllAsComplete()"><i class="fas fa-sort-down"></i></button>
+    <button [ngStyle]="{'visibility': items.length ? 'visible' : 'hidden'}" type="button" class="btn btn-link" (click)="markAllItemsAsComplete()"><i class="fas fa-sort-down"></i></button>
     <form #form="ngForm" (ngSubmit)="submitItem(form)" class="mr-4">
       <input type="text" class="form-control" name="title" placeholder="What needs to be done?" [(ngModel)]="title">
     </form>
   </div>
   <div class="w-100" *ngIf="items.length">
-    <app-todo-item *ngFor="let item of (items | filter:status)" [item]="item" (update)="updateItem($event)" (delete)="deleteItem($event)"></app-todo-item>
-    <div class="d-flex justify-content-between align-items-center pt-2 pb-2" style="border: 1px solid #ccc; border-width: 1px 0;">
-      <span class="d-flex mr-3">{{ (items | filter:'active').length }} items left</span>
+    <app-todo-item *ngFor="let item of (items | statusFilter:status)" [item]="item" (update)="updateItem($event)" (delete)="deleteItem($event)"></app-todo-item>
+    <div class="d-flex justify-content-between align-items-center pt-2 pb-2 footer">
+      <span class="d-flex mr-3">{{ (items | statusFilter:'active').length }} items left</span>
       <ul class="nav nav-pills">
         <li class="nav-item"><a class="nav-link" [ngClass]="{active: status==='all'}"  (click)="status='all'">All</a></li>
         <li class="nav-item"><a class="nav-link" [ngClass]="{active: status==='active'}" (click)="status='active'">Active</a></li>
         <li class="nav-item"><a class="nav-link" [ngClass]="{active: status==='completed'}" (click)="status='completed'">Completed</a></li>
       </ul>
-      <button [ngStyle]="{'visibility': (items | filter:'completed').length ? 'visible' : 'hidden'}" type="button" class="ml-3" (click)="deleteCompletedItems()">Clear completed</button>
+      <button [ngStyle]="{'visibility': (items | statusFilter:'completed').length ? 'visible' : 'hidden'}" type="button" class="ml-3" (click)="deleteCompletedItems()">Clear completed</button>
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { iItem } from './items';
+import { Item } from './models/item';
 
 @Component({
   selector: 'app-root',
@@ -7,11 +7,11 @@ import { iItem } from './items';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  app: string = 'Todo list';
-  title: string;
-  items: iItem[] = [];
-  status: string = "all";
-  isMarkAllAsComplete: boolean = false;
+  app = 'Todo list';
+  title = '';
+  items: Item[] = [];
+  status = "all";
+  isMarkAllAsComplete = false;
 
   ngOnInit(): void {
     if(localStorage.getItem('todo')) {
@@ -20,22 +20,12 @@ export class AppComponent implements OnInit {
   }
 
   updateItem(item) {
-    this.items = this.items.map((el) => {
-      if(el.id === item.id) {
-        return item;
-      } else {
-        return el;
-      }
-    });
+    this.items = this.items.map(el => el.id === item.id ? item : el);
     localStorage.setItem('todo', JSON.stringify(this.items));
   }
 
   deleteItem(item) {
-    this.items = this.items.filter((el) => {
-      if(el.id !== item.id) {
-        return el;
-      }
-    });
+    this.items = this.items.filter(el => el.id !== item.id);
     localStorage.setItem('todo', JSON.stringify(this.items));
   }
 
@@ -46,12 +36,12 @@ export class AppComponent implements OnInit {
 
   submitItem(form) {
     const id = this.items.length ? this.items[this.items.length -1].id + 1 : 0;
-    this.items.push({'id': id, 'title': form.value.title, 'completed': false});
+    this.items = this.items.concat([{'id': id, 'title': form.value.title, 'completed': false}]);
     form.resetForm();
     localStorage.setItem('todo', JSON.stringify(this.items));
   }
 
-  markAllAsComplete() {
+  markAllItemsAsComplete() {
     this.isMarkAllAsComplete = !this.isMarkAllAsComplete;
     this.items = this.items.map((item) => {
       item.completed = this.isMarkAllAsComplete;

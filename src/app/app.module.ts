@@ -2,16 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { TodoItemComponent } from './todo-item/todo-item.component';
+import { TodoItemComponent } from './components/todo-item/todo-item.component';
 
 import { FormsModule }   from '@angular/forms';
-import { FilterPipe } from './filter.pipe';
+import { StatusFilterPipe } from './pipes/filter.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoItemComponent,
-    FilterPipe
+    StatusFilterPipe
   ],
   imports: [
     BrowserModule,

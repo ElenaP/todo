@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  padding: 5px 0;
+}
+.todo-item .btn {
+  display: none;
+}
+.todo-item:hover .btn {
+  display: block;
+}

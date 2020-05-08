@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { iItem } from './items';
+import { Item } from '../models/item';
 
 @Pipe({
-  name: 'filter'
+  name: 'statusFilter'
 })
 
-export class FilterPipe implements PipeTransform {
-  transform(items: iItem[], status: string): iItem[] {
+export class StatusFilterPipe implements PipeTransform {
+  transform(items: Item[], status: string): Item[] {
     switch (status) {
       case 'all':
         return items;
