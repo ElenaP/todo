@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Item } from './models/item';
+import { Store, select } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import * as todoListActions from './actions';
 
 @Component({
   selector: 'app-root',
@@ -9,43 +12,35 @@ import { Item } from './models/item';
 export class AppComponent implements OnInit {
   app = 'Todo list';
   title = '';
-  items: Item[] = [];
   status = "all";
-  isMarkAllAsComplete = false;
+  items$: Observable<Item[]>;
+
+  constructor(
+    private readonly store: Store<{ todo: Item[] }>
+  ) {}
 
   ngOnInit(): void {
-    if(localStorage.getItem('todo')) {
-      this.items = JSON.parse(localStorage.getItem('todo'));
-    }
+    this.items$ = this.store.pipe(select('todo'));
   }
 
-  updateItem(item) {
-    this.items = this.items.map(el => el.id === item.id ? item : el);
-    localStorage.setItem('todo', JSON.stringify(this.items));
+  addItem(form) {
+    this.store.dispatch(todoListActions.todoItemAdded({ title: form.value.title }));
+    form.resetForm();
   }
 
   deleteItem(item) {
-    this.items = this.items.filter(el => el.id !== item.id);
-    localStorage.setItem('todo', JSON.stringify(this.items));
+    this.store.dispatch(todoListActions.todoItemDeleted({ id: item.id }));
   }
 
-  deleteCompletedItems() {
-    this.items = this.items.filter((item) => !item.completed);
-    localStorage.setItem('todo', JSON.stringify(this.items));
-  }
-
-  submitItem(form) {
-    const id = this.items.length ? this.items[this.items.length -1].id + 1 : 0;
-    this.items = this.items.concat([{'id': id, 'title': form.value.title, 'completed': false}]);
-    form.resetForm();
-    localStorage.setItem('todo', JSON.stringify(this.items));
+  updateItem(item) {
+    this.store.dispatch(todoListActions.todoItemUpdated({ id: item.id, title: item.title, completed: item.completed } ));
   }
 
   markAllItemsAsComplete() {
-    this.isMarkAllAsComplete = !this.isMarkAllAsComplete;
-    this.items = this.items.map((item) => {
-      item.completed = this.isMarkAllAsComplete;
-      return item;
-    });
+    this.store.dispatch(todoListActions.todoItemsCompletedAll());
+  }
+
+  clearCompletedItems() {
+    this.store.dispatch(todoListActions.todoClearedAllCompletedItems());
   }
 }

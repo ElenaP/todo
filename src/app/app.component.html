@@ -1,8 +1,8 @@
-<div class="d-flex flex-column align-items-center m-auto w-75">
+<div class="d-flex flex-column align-items-center m-auto w-75" *ngIf="items$ | async as items">
   <h1>{{ app }}</h1>
   <div class="d-flex justify-content-center">
     <button [ngStyle]="{'visibility': items.length ? 'visible' : 'hidden'}" type="button" class="btn btn-link" (click)="markAllItemsAsComplete()"><i class="fas fa-sort-down"></i></button>
-    <form #form="ngForm" (ngSubmit)="submitItem(form)" class="mr-4">
+    <form #form="ngForm" (ngSubmit)="addItem(form)" class="mr-4">
       <input type="text" class="form-control" name="title" placeholder="What needs to be done?" [(ngModel)]="title">
     </form>
   </div>
@@ -15,7 +15,7 @@
         <li class="nav-item"><a class="nav-link" [ngClass]="{active: status==='active'}" (click)="status='active'">Active</a></li>
         <li class="nav-item"><a class="nav-link" [ngClass]="{active: status==='completed'}" (click)="status='completed'">Completed</a></li>
       </ul>
-      <button [ngStyle]="{'visibility': (items | statusFilter:'completed').length ? 'visible' : 'hidden'}" type="button" class="ml-3" (click)="deleteCompletedItems()">Clear completed</button>
+      <button [ngStyle]="{'visibility': (items | statusFilter:'completed').length ? 'visible' : 'hidden'}" type="button" class="ml-3" (click)="clearCompletedItems()">Clear completed</button>
     </div>
   </div>
 </div>

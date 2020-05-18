@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
+    "test": "ng test --watch=true",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -20,7 +20,10 @@
     "@angular/platform-browser-dynamic": "~9.1.3",
     "@angular/router": "~9.1.3",
     "@fortawesome/fontawesome-free": "^5.13.0",
+    "@ngrx/store": "^9.1.2",
+    "@ngrx/store-devtools": "^9.1.2",
     "bootstrap": "^4.4.1",
+    "jasmine-marbles": "^0.6.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

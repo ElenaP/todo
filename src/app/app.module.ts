@@ -7,6 +7,10 @@ import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { FormsModule }   from '@angular/forms';
 import { StatusFilterPipe } from './pipes/filter.pipe';
 
+import { StoreModule } from "@ngrx/store";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
+import { reducer } from './reducer';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -15,7 +19,9 @@ import { StatusFilterPipe } from './pipes/filter.pipe';
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({ todo: reducer }),
+    StoreDevtoolsModule.instrument({ maxAge: 50 })
   ],
   providers: [],
   bootstrap: [AppComponent]

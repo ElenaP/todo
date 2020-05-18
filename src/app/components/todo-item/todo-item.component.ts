@@ -35,12 +35,16 @@ export class TodoItemComponent {
     this.delete.emit(this.item);
   }
 
-  changeItem() {
-    this.update.emit(this.item);
+  changeItem(item) {
+    const copyItem = {... item};
+    copyItem.completed = !copyItem.completed;
+    this.update.emit(copyItem);
   }
 
   onSubmit(form) {
     this.isEditMode = false;
-    form.title ? this.update.emit(this.item) : this.delete.emit(this.item);
+    const copyItem = {... this.item};
+    copyItem.title = form.title;
+    form.title ? this.update.emit(copyItem) : this.delete.emit(this.item);
   }
 }
